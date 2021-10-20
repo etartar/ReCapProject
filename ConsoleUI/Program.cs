@@ -1,4 +1,5 @@
 ﻿using Business.Concrete;
+using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 using System;
@@ -9,7 +10,7 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            CarManager carManager = new CarManager(new InMemoryCarDal());
+            CarManager carManager = new CarManager(new EfCarDal());
 
             #region [Tüm Arabaları Listele]
             ListAllCars(carManager);
@@ -19,7 +20,7 @@ namespace ConsoleUI
 
             Console.WriteLine("---- BMW yi getir ----");
 
-            var getCar = carManager.GetCarById(1);
+            var getCar = carManager.GetById(1);
 
             Console.WriteLine($"Car Id : {getCar.Id}, Daily Price : {getCar.DailyPrice}, Model Year : {getCar.ModelYear}, Description : {getCar.Description}");
 
@@ -37,24 +38,22 @@ namespace ConsoleUI
                 Description = "Tofaş Şahin"
             };
 
-            carManager.CreateCar(newCar);
+            carManager.Create(newCar);
 
             ListAllCars(carManager);
             #endregion
 
             #region [Tofaş şahinin fiyatını güncelle]
-            Car getTofas = carManager.GetCarById(4);
+            Car getTofas = carManager.GetById(4);
             getTofas.DailyPrice = 120;
 
-            carManager.UpdateCar(getTofas);
+            carManager.Update(4, getTofas);
 
             ListAllCars(carManager);
             #endregion
 
             #region [Tofaş şahini sil]
-            Car getTofasForDelete = carManager.GetCarById(4);
-
-            carManager.DeleteCar(getTofasForDelete);
+            carManager.Delete(4);
 
             ListAllCars(carManager);
             #endregion
@@ -66,7 +65,7 @@ namespace ConsoleUI
         {
             Console.WriteLine("---- Tüm Arabaların Listesi ----");
 
-            foreach (var car in carManager.GetAllCars())
+            foreach (var car in carManager.GetAll())
             {
                 Console.WriteLine($"Car Id : {car.Id}, Daily Price : {car.DailyPrice}, Model Year : {car.ModelYear}, Description : {car.Description}");
             }

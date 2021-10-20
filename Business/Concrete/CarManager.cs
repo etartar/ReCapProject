@@ -1,7 +1,7 @@
 ﻿using Business.Abstract;
 using DataAccess.Abstract;
-using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
+using Entities.DTOs;
 using System.Collections.Generic;
 
 namespace Business.Concrete
@@ -15,29 +15,55 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-        public List<Car> GetAllCars()
+        public List<Car> GetAll()
         {
             return _carDal.GetAll();
         }
 
-        public Car GetCarById(int carId)
+        public List<Car> GetCarsByBrandId(int brandId)
         {
-            return _carDal.GetById(carId);
+            return _carDal.GetAll(c => c.BrandId == brandId);
         }
 
-        public void CreateCar(Car car)
+        public List<Car> GetCarsByColorId(int colorId)
         {
-            _carDal.Add(car);
+            return _carDal.GetAll(c => c.ColorId == colorId);
         }
 
-        public void UpdateCar(Car car)
+        public List<CarDetailDto> GetCarDetails()
         {
-            _carDal.Update(car);
+            return _carDal.GetCarDetails();
         }
 
-        public void DeleteCar(Car car)
+        public Car GetById(int carId)
         {
-            _carDal.Delete(car);
+            return _carDal.Get(c => c.Id == carId);
+        }
+
+        public void Create(Car car)
+        {
+            if (car.Description.Length > 1 && car.DailyPrice > 0)
+            {
+                _carDal.Add(car);
+            }
+        }
+
+        public void Update(int carId, Car car)
+        {
+            var getCar = _carDal.Get(c => c.Id == carId);
+            getCar.BrandId = car.BrandId;
+            getCar.ColorId = car.ColorId;
+            getCar.DailyPrice = car.DailyPrice;
+            getCar.Description = car.Description;
+            getCar.ModelYear = car.ModelYear;
+
+            _carDal.Update(getCar);
+        }
+
+        public void Delete(int carId)
+        {
+            var getCar = _carDal.Get(c => c.Id == carId);
+            _carDal.Delete(getCar);
         }
     }
 }

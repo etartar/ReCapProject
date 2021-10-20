@@ -1,8 +1,10 @@
 ﻿using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,22 +24,22 @@ namespace DataAccess.Concrete.InMemory
             };
         }
 
-        public List<Car> GetAll()
+        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
         {
             return _cars;
         }
 
-        public Task<List<Car>> GetAllAsync()
+        public Task<List<Car>> GetAllAsync(Expression<Func<Car, bool>> filter = null)
         {
             throw new NotImplementedException();
         }
 
-        public Car GetById(int id)
+        public Car Get(Expression<Func<Car, bool>> filter)
         {
-            return _cars.SingleOrDefault(x => x.Id == id);
+            return _cars.FirstOrDefault();
         }
 
-        public Task<Car> GetByIdAsync()
+        public Task<Car> GetAsync(Expression<Func<Car, bool>> filter)
         {
             throw new NotImplementedException();
         }
@@ -72,6 +74,16 @@ namespace DataAccess.Concrete.InMemory
             Car carToDelete = _cars.SingleOrDefault(x => x.Id == car.Id);
 
             _cars.Remove(carToDelete);
+        }
+
+        public List<CarDetailDto> GetCarDetails()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<CarDetailDto>> GetCarDetailsAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }
