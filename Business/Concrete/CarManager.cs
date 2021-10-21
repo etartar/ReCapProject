@@ -1,8 +1,11 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -15,55 +18,73 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-        public List<Car> GetAll()
+        public async Task<IDataResult<List<Car>>> GetAll()
         {
-            return _carDal.GetAll();
+            var data = await _carDal.GetAllAsync();
+            return new SuccessDataResult<List<Car>>(data);
         }
 
-        public List<Car> GetCarsByBrandId(int brandId)
+        public async Task<IDataResult<List<Car>>> GetCarsByBrandId(int brandId)
         {
-            return _carDal.GetAll(c => c.BrandId == brandId);
+            var data = await _carDal.GetAllAsync(c => c.BrandId == brandId);
+            return new SuccessDataResult<List<Car>>(data);
         }
 
-        public List<Car> GetCarsByColorId(int colorId)
+        public async Task<IDataResult<List<Car>>> GetCarsByColorId(int colorId)
         {
-            return _carDal.GetAll(c => c.ColorId == colorId);
+            var data = await _carDal.GetAllAsync(c => c.ColorId == colorId);
+            return new SuccessDataResult<List<Car>>(data);
         }
 
-        public List<CarDetailDto> GetCarDetails()
+        public async Task<IDataResult<List<CarDetailDto>>> GetCarDetails()
         {
-            return _carDal.GetCarDetails();
+            var data = await _carDal.GetCarDetailsAsync();
+            return new SuccessDataResult<List<CarDetailDto>>(data);
         }
 
-        public Car GetById(int carId)
+        public async Task<IDataResult<Car>> GetById(int carId)
         {
-            return _carDal.Get(c => c.Id == carId);
+            var data = await _carDal.GetAsync(c => c.Id == carId);
+            return new SuccessDataResult<Car>(data);
         }
 
-        public void Create(Car car)
+        public async Task<IResult> Create(Car car)
         {
-            if (car.Description.Length > 1 && car.DailyPrice > 0)
+            if (car.Description.Length < 2)
             {
-                _carDal.Add(car);
+                return new ErrorResult(Messages.CarNameMinLengthTwo);
             }
+            
+            if (car.DailyPrice <= 0)
+            {
+                return new ErrorResult(Messages.CarDailyPriceGreaterThanZero);
+            }
+
+            await _carDal.AddAsync(car);
+            return new SuccessResult(Messages.CarAdded);
         }
 
-        public void Update(int carId, Car car)
+        public async Task<IResult> Update(int carId, Car car)
         {
-            var getCar = _carDal.Get(c => c.Id == carId);
+            var getCar = await _carDal.GetAsync(c => c.Id == carId);
             getCar.BrandId = car.BrandId;
             getCar.ColorId = car.ColorId;
             getCar.DailyPrice = car.DailyPrice;
             getCar.Description = car.Description;
             getCar.ModelYear = car.ModelYear;
 
-            _carDal.Update(getCar);
+            await _carDal.UpdateAsync(getCar);
+
+            return new SuccessResult(Messages.CarUpdated);
         }
 
-        public void Delete(int carId)
+        public async Task<IResult> Delete(int carId)
         {
-            var getCar = _carDal.Get(c => c.Id == carId);
+            var getCar = await _carDal.GetAsync(c => c.Id == carId);
+
             _carDal.Delete(getCar);
+
+            return new SuccessResult(Messages.CarDeleted);
         }
     }
 }

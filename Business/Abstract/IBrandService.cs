@@ -1,14 +1,16 @@
-﻿using Entities.Concrete;
+﻿using Core.Utilities.Results;
+using Entities.Concrete;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
     public interface IBrandService
     {
-        List<Brand> GetAll();
-        Brand GetById(int brandId);
-        void Create(Brand brand);
-        void Update(int brandId, Brand brand);
-        void Delete(int brandId);
+        Task<IDataResult<List<Brand>>> GetAll();
+        Task<IDataResult<Brand>> GetById(int brandId);
+        Task<IResult> Create(Brand brand);
+        Task<IResult> Update(int brandId, Brand brand);
+        Task<IResult> Delete(int brandId);
     }
 }

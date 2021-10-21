@@ -1,14 +1,16 @@
-﻿using Entities.Concrete;
+﻿using Core.Utilities.Results;
+using Entities.Concrete;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
     public interface IColorService
     {
-        List<Color> GetAll();
-        Color GetById(int colorId);
-        void Create(Color color);
-        void Update(int colorId, Color color);
-        void Delete(int colorId);
+        Task<IDataResult<List<Color>>> GetAll();
+        Task<IDataResult<Color>> GetById(int colorId);
+        Task<IResult> Create(Color color);
+        Task<IResult> Update(int colorId, Color color);
+        Task<IResult> Delete(int colorId);
     }
 }
