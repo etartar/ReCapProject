@@ -1,4 +1,5 @@
 ﻿using Business.Concrete;
+using Core.Utilities.Results;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
@@ -20,9 +21,9 @@ namespace ConsoleUI
 
             Console.WriteLine("---- BMW yi getir ----");
 
-            var getCar = carManager.GetById(1);
+            var getCar = carManager.GetById(1).ConfigureAwait(false).GetAwaiter().GetResult();
 
-            Console.WriteLine($"Car Id : {getCar.Id}, Daily Price : {getCar.DailyPrice}, Model Year : {getCar.ModelYear}, Description : {getCar.Description}");
+            Console.WriteLine($"Car Id : {getCar.Data.Id}, Daily Price : {getCar.Data.DailyPrice}, Model Year : {getCar.Data.ModelYear}, Description : {getCar.Data.Description}");
 
             Console.WriteLine("\n");
             #endregion
@@ -44,10 +45,10 @@ namespace ConsoleUI
             #endregion
 
             #region [Tofaş şahinin fiyatını güncelle]
-            Car getTofas = carManager.GetById(4);
-            getTofas.DailyPrice = 120;
+            IDataResult<Car> getTofas = carManager.GetById(4).ConfigureAwait(false).GetAwaiter().GetResult();
+            getTofas.Data.DailyPrice = 120;
 
-            carManager.Update(4, getTofas);
+            carManager.Update(4, getTofas.Data);
 
             ListAllCars(carManager);
             #endregion
@@ -65,7 +66,9 @@ namespace ConsoleUI
         {
             Console.WriteLine("---- Tüm Arabaların Listesi ----");
 
-            foreach (var car in carManager.GetAll())
+            var allCarList = carManager.GetAll().ConfigureAwait(false).GetAwaiter().GetResult();
+
+            foreach (var car in allCarList.Data)
             {
                 Console.WriteLine($"Car Id : {car.Id}, Daily Price : {car.DailyPrice}, Model Year : {car.ModelYear}, Description : {car.Description}");
             }

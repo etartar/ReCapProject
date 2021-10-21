@@ -1,11 +1,6 @@
 ﻿using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework.Configurations
 {
@@ -15,9 +10,23 @@ namespace DataAccess.Concrete.EntityFramework.Configurations
         {
             builder.HasKey(c => c.Id);
 
-            builder.HasIndex(c => c.BrandId);
+            builder.Property(c => c.Id)
+                .ValueGeneratedOnAdd()
+                .UseIdentityColumn();
 
-            builder.HasIndex(c => c.ColorId);
+            builder.HasIndex(c => new { c.BrandId, c.ColorId });
+
+            builder.Property(c => c.BrandId).IsRequired();
+
+            builder.Property(c => c.ColorId).IsRequired();
+
+            builder.Property(c => c.ModelYear).IsRequired();
+
+            builder.Property(c => c.DailyPrice).IsRequired();
+
+            builder.Property(c => c.Description)
+                .HasMaxLength(255)
+                .IsRequired();
         }
     }
 }
