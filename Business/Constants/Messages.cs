@@ -25,6 +25,7 @@
         public static string UserDeleted = "Kullanıcı silindi.";
 
         public static string RentalAdded = "Araç kiralandı.";
+        public static string RentalAddedError = "Seçtiğiniz araç kiralıktır. Lütfen başka araç kiralayınız.";
         public static string RentalUpdated = "Kiralanan araç bilgileri güncellendi.";
         public static string RentalDeleted = "Araç kiralama kaydı silindi.";
     }

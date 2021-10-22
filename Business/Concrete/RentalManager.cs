@@ -31,6 +31,15 @@ namespace Business.Concrete
 
         public async Task<IResult> Create(Rental rental)
         {
+            Rental getLastRental = await _rentalDal.GetLastRentalByCarIdAsync(rental.CarId);
+            if (getLastRental != null)
+            {
+                if ((!getLastRental.ReturnDate.HasValue) || (rental.RentDate <= getLastRental.ReturnDate))
+                {
+                    return new ErrorResult(Messages.RentalAddedError);
+                }
+            }
+
             await _rentalDal.AddAsync(rental);
             return new SuccessResult(Messages.RentalAdded);
         }
