@@ -64,26 +64,15 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarAdded);
         }
 
-        public async Task<IResult> Update(int carId, Car car)
+        public async Task<IResult> Update(Car car)
         {
-            var getCar = await _carDal.GetAsync(c => c.Id == carId);
-            getCar.BrandId = car.BrandId;
-            getCar.ColorId = car.ColorId;
-            getCar.DailyPrice = car.DailyPrice;
-            getCar.Description = car.Description;
-            getCar.ModelYear = car.ModelYear;
-
-            await _carDal.UpdateAsync(getCar);
-
+            await _carDal.UpdateAsync(car);
             return new SuccessResult(Messages.CarUpdated);
         }
 
-        public async Task<IResult> Delete(int carId)
+        public IResult Delete(Car car)
         {
-            var getCar = await _carDal.GetAsync(c => c.Id == carId);
-
-            _carDal.Delete(getCar);
-
+            _carDal.Delete(car);
             return new SuccessResult(Messages.CarDeleted);
         }
     }

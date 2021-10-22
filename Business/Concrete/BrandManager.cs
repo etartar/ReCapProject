@@ -35,22 +35,15 @@ namespace Business.Concrete
             return new SuccessResult(Messages.BrandAdded);
         }
 
-        public async Task<IResult> Update(int brandId, Brand brand)
+        public async Task<IResult> Update(Brand brand)
         {
-            var getBrand = await _brandDal.GetAsync(b => b.Id == brandId);
-            getBrand.Name = brand.Name;
-
-            await _brandDal.UpdateAsync(getBrand);
-
+            await _brandDal.UpdateAsync(brand);
             return new SuccessResult(Messages.BrandUpdated);
         }
 
-        public async Task<IResult> Delete(int brandId)
+        public IResult Delete(Brand brand)
         {
-            var getBrand = await _brandDal.GetAsync(b => b.Id == brandId);
-
-            _brandDal.Delete(getBrand);
-
+            _brandDal.Delete(brand);
             return new SuccessResult(Messages.BrandDeleted);
         }
     }

@@ -10,7 +10,7 @@ namespace Business.Abstract
         Task<IDataResult<List<Color>>> GetAll();
         Task<IDataResult<Color>> GetById(int colorId);
         Task<IResult> Create(Color color);
-        Task<IResult> Update(int colorId, Color color);
-        Task<IResult> Delete(int colorId);
+        Task<IResult> Update(Color color);
+        IResult Delete(Color color);
     }
 }

@@ -35,22 +35,15 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ColorAdded);
         }
 
-        public async Task<IResult> Update(int colorId, Color color)
+        public async Task<IResult> Update(Color color)
         {
-            var getColor = await _colorDal.GetAsync(b => b.Id == colorId);
-            getColor.Name = color.Name;
-
-            await _colorDal.UpdateAsync(getColor);
-
+            await _colorDal.UpdateAsync(color);
             return new SuccessResult(Messages.ColorUpdated);
         }
 
-        public async Task<IResult> Delete(int colorId)
+        public IResult Delete(Color color)
         {
-            var getColor = await _colorDal.GetAsync(b => b.Id == colorId);
-
-            _colorDal.Delete(getColor);
-
+            _colorDal.Delete(color);
             return new SuccessResult(Messages.ColorDeleted);
         }
     }

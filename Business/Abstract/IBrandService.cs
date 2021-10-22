@@ -10,7 +10,7 @@ namespace Business.Abstract
         Task<IDataResult<List<Brand>>> GetAll();
         Task<IDataResult<Brand>> GetById(int brandId);
         Task<IResult> Create(Brand brand);
-        Task<IResult> Update(int brandId, Brand brand);
-        Task<IResult> Delete(int brandId);
+        Task<IResult> Update(Brand brand);
+        IResult Delete(Brand brand);
     }
 }

@@ -14,7 +14,7 @@ namespace Business.Abstract
         Task<IDataResult<List<CarDetailDto>>> GetCarDetails();
         Task<IDataResult<Car>> GetById(int carId);
         Task<IResult> Create(Car car);
-        Task<IResult> Update(int carId, Car car);
-        Task<IResult> Delete(int carId);
+        Task<IResult> Update(Car car);
+        IResult Delete(Car car);
     }
 }
