@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Npgsql;
+using System;
 
 namespace WebAPI
 {
@@ -51,9 +53,19 @@ namespace WebAPI
             #endregion
 
             #region [Database Context]
+            var connectionStringBuilder = new NpgsqlConnectionStringBuilder()
+            {
+                ConnectionString = Configuration.GetConnectionString("PostgreSqlDb"),
+                Host = Configuration["PostgreSql:Host"],
+                Database = Configuration["PostgreSql:Database"],
+                Port = Convert.ToInt32(Configuration["PostgreSql:Port"]),
+                Username = Configuration["PostgreSql:Username"],
+                Password = Configuration["PostgreSql:Password"]
+            };
+
             services.AddDbContext<CarRentalContext>(opt =>
             {
-                opt.UseNpgsql(Configuration.GetConnectionString("PostgreSqlDb"));
+                opt.UseNpgsql(connectionStringBuilder.ConnectionString);
             });
             #endregion
         }
