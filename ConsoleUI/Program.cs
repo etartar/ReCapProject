@@ -48,13 +48,13 @@ namespace ConsoleUI
             IDataResult<Car> getTofas = carManager.GetById(4).ConfigureAwait(false).GetAwaiter().GetResult();
             getTofas.Data.DailyPrice = 120;
 
-            carManager.Update(4, getTofas.Data);
+            //carManager.Update(4, getTofas.Data);
 
             ListAllCars(carManager);
             #endregion
 
             #region [Tofaş şahini sil]
-            carManager.Delete(4);
+            //carManager.Delete(4);
 
             ListAllCars(carManager);
             #endregion
