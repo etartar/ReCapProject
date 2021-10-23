@@ -1,5 +1,6 @@
 using Business.Abstract;
 using Business.Concrete;
+using Core.DataAccess;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Microsoft.AspNetCore.Builder;
@@ -26,6 +27,8 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            ConnectionService.SetNpgsql(Configuration, "PostgreSqlDb");
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -52,22 +55,6 @@ namespace WebAPI
             services.AddSingleton<IUserDal, EfUserDal>();
             #endregion
 
-            #region [Database Context]
-            var connectionStringBuilder = new NpgsqlConnectionStringBuilder()
-            {
-                ConnectionString = Configuration.GetConnectionString("PostgreSqlDb"),
-                Host = Configuration["PostgreSql:Host"],
-                Database = Configuration["PostgreSql:Database"],
-                Port = Convert.ToInt32(Configuration["PostgreSql:Port"]),
-                Username = Configuration["PostgreSql:Username"],
-                Password = Configuration["PostgreSql:Password"]
-            };
-
-            services.AddDbContext<CarRentalContext>(opt =>
-            {
-                opt.UseNpgsql(connectionStringBuilder.ConnectionString);
-            });
-            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

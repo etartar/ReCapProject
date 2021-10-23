@@ -26,7 +26,8 @@ namespace Business.Concrete
         public async Task<IDataResult<Customer>> GetById(int customerId)
         {
             var data = await _customerDal.GetAsync(b => b.Id == customerId);
-            return new SuccessDataResult<Customer>(data);
+            if (data is null) return new ErrorDataResult<Customer>(data, Messages.CustomerIsNull);
+            else return new SuccessDataResult<Customer>(data);
         }
 
         public async Task<IResult> Create(Customer customer)

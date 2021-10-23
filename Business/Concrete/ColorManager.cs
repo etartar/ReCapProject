@@ -26,7 +26,8 @@ namespace Business.Concrete
         public async Task<IDataResult<Color>> GetById(int colorId)
         {
             var data = await _colorDal.GetAsync(b => b.Id == colorId);
-            return new SuccessDataResult<Color>(data);
+            if (data is null) return new ErrorDataResult<Color>(data, Messages.ColorIsNull);
+            else return new SuccessDataResult<Color>(data);
         }
 
         public async Task<IResult> Create(Color color)

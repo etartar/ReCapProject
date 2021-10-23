@@ -26,7 +26,8 @@ namespace Business.Concrete
         public async Task<IDataResult<Rental>> GetById(int rentalId)
         {
             var data = await _rentalDal.GetAsync(b => b.Id == rentalId);
-            return new SuccessDataResult<Rental>(data);
+            if (data is null) return new ErrorDataResult<Rental>(data, Messages.RentalIsNull);
+            else return new SuccessDataResult<Rental>(data);
         }
 
         public async Task<IResult> Create(Rental rental)

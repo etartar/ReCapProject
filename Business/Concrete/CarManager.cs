@@ -45,7 +45,8 @@ namespace Business.Concrete
         public async Task<IDataResult<Car>> GetById(int carId)
         {
             var data = await _carDal.GetAsync(c => c.Id == carId);
-            return new SuccessDataResult<Car>(data);
+            if (data is null) return new ErrorDataResult<Car>(data, Messages.CarIsNull);
+            else return new SuccessDataResult<Car>(data);
         }
 
         public async Task<IResult> Create(Car car)

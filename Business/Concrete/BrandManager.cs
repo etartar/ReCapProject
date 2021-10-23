@@ -26,7 +26,8 @@ namespace Business.Concrete
         public async Task<IDataResult<Brand>> GetById(int brandId)
         {
             var data = await _brandDal.GetAsync(b => b.Id == brandId);
-            return new SuccessDataResult<Brand>(data);
+            if (data is null) return new ErrorDataResult<Brand>(data, Messages.BrandIsNull);
+            else return new SuccessDataResult<Brand>(data);
         }
 
         public async Task<IResult> Create(Brand brand)
