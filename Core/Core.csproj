@@ -6,6 +6,17 @@
     <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.3.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+    <PackageReference Include="Autofac.Extras.DynamicProxy" Version="6.0.0" />
+    <PackageReference Include="FluentValidation" Version="10.3.4" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Aspects\Autofac\Caching\" />
+    <Folder Include="Aspects\Autofac\Exception\" />
+    <Folder Include="Aspects\Autofac\Logging\" />
+    <Folder Include="Aspects\Autofac\Transaction\" />
+    <Folder Include="Aspects\Autofac\Performance\" />
   </ItemGroup>
 </Project>

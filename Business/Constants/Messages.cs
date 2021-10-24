@@ -7,7 +7,7 @@
         public static string CarDeleted = "Araba silindi.";
         public static string CarIsNull = "İlgili arabaya ait veri bulunamadı.";
         public static string CarNameMinLengthTwo = "Araba Adı min. 2 karakter olmalıdır.";
-        public static string CarDailyPriceGreaterThanZero = "Araba kiralama fiyatı 0' dan büyük olmalıdır.";
+        public static string CarDailyPriceMustBeGreaterThanZero = "Araba kiralama fiyatı 0' dan büyük olmalıdır.";
 
         public static string BrandAdded = "Marka eklendi.";
         public static string BrandUpdated = "Marka güncellendi.";

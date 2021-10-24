@@ -1,5 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -49,22 +52,14 @@ namespace Business.Concrete
             else return new SuccessDataResult<Car>(data);
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public async Task<IResult> Create(Car car)
         {
-            if (car.Description.Length < 2)
-            {
-                return new ErrorResult(Messages.CarNameMinLengthTwo);
-            }
-            
-            if (car.DailyPrice <= 0)
-            {
-                return new ErrorResult(Messages.CarDailyPriceGreaterThanZero);
-            }
-
             await _carDal.AddAsync(car);
             return new SuccessResult(Messages.CarAdded);
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public async Task<IResult> Update(Car car)
         {
             await _carDal.UpdateAsync(car);
