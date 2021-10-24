@@ -1,8 +1,10 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -32,13 +34,10 @@ namespace Business.Concrete
 
         public async Task<IResult> Create(Rental rental)
         {
-            Rental getLastRental = await _rentalDal.GetLastRentalByCarIdAsync(rental.CarId);
-            if (getLastRental != null)
+            IResult result = BusinessRules.Run(CheckIsCarRentalable(rental.CarId, rental.RentDate));
+            if (result != null)
             {
-                if ((!getLastRental.ReturnDate.HasValue) || (rental.RentDate <= getLastRental.ReturnDate))
-                {
-                    return new ErrorResult(Messages.RentalAddedError);
-                }
+                return result;
             }
 
             await _rentalDal.AddAsync(rental);
@@ -55,6 +54,20 @@ namespace Business.Concrete
         {
             _rentalDal.Delete(rental);
             return new SuccessResult(Messages.RentalDeleted);
+        }
+
+        private IResult CheckIsCarRentalable(int carId, DateTime rentDate)
+        {
+            Rental getLastRental = _rentalDal.GetLastRentalByCarId(carId);
+            if (getLastRental != null)
+            {
+                if ((!getLastRental.ReturnDate.HasValue) || (rentDate <= getLastRental.ReturnDate))
+                {
+                    return new ErrorResult(Messages.RentalAddedError);
+                }
+            }
+
+            return new SuccessResult();
         }
     }
 }
