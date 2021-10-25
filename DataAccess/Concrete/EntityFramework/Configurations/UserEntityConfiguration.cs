@@ -14,7 +14,8 @@ namespace DataAccess.Concrete.EntityFramework.Configurations
                 .ValueGeneratedOnAdd()
                 .UseIdentityColumn();
 
-            builder.HasIndex(u => u.Email);
+            builder.HasIndex(u => u.Email)
+                .IsUnique();
 
             builder.Property(u => u.FirstName)
                 .HasMaxLength(255)

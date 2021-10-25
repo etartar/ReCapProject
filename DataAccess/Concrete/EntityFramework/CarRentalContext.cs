@@ -13,10 +13,14 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<User> Users { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Rental> Rentals { get; set; }
+        public DbSet<CarImage> CarImages { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(ConnectionService.connectionString);
+            optionsBuilder.UseNpgsql(ConnectionService.connectionString, npgsqlOptions =>
+            {
+                npgsqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: System.TimeSpan.FromSeconds(30), errorCodesToAdd: null);
+            });
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -27,6 +31,7 @@ namespace DataAccess.Concrete.EntityFramework
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CustomerEntityConfiguration).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(RentalEntityConfiguration).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserEntityConfiguration).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CarImageEntityConfiguration).Assembly);
         }
     }
 }
