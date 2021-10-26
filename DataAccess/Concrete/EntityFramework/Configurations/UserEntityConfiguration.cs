@@ -1,4 +1,4 @@
-﻿using Entities.Concrete;
+﻿using Core.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -18,19 +18,24 @@ namespace DataAccess.Concrete.EntityFramework.Configurations
                 .IsUnique();
 
             builder.Property(u => u.FirstName)
-                .HasMaxLength(255)
+                .HasMaxLength(50)
                 .IsRequired();
 
             builder.Property(u => u.LastName)
-                .HasMaxLength(255)
+                .HasMaxLength(50)
                 .IsRequired();
 
             builder.Property(u => u.Email)
-                .HasMaxLength(255)
+                .HasMaxLength(50)
                 .IsRequired();
 
-            builder.Property(u => u.Password)
-                .HasMaxLength(255)
+            builder.Property(u => u.PasswordHash)
+                .IsRequired();
+
+            builder.Property(u => u.PasswordSalt)
+                .IsRequired();
+
+            builder.Property(u => u.Status)
                 .IsRequired();
 
             builder.Ignore(u => u.FullName);

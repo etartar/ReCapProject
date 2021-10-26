@@ -1,5 +1,5 @@
 ﻿using Business.Abstract;
-using Entities.Concrete;
+using Core.Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -58,7 +58,7 @@ namespace WebAPI.Controllers
                 getUser.Data.FirstName = user.FirstName;
                 getUser.Data.LastName = user.LastName;
                 getUser.Data.Email = user.Email;
-                getUser.Data.Password = user.Password;
+                //getUser.Data.Password = user.Password;
                 var result = await _userService.Update(getUser.Data);
                 if (result.Success)
                 {

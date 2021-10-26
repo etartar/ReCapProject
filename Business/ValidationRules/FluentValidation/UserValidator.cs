@@ -1,5 +1,5 @@
 ﻿using Business.Constants;
-using Entities.Concrete;
+using Core.Entities.Concrete;
 using FluentValidation;
 
 namespace Business.ValidationRules.FluentValidation
@@ -15,7 +15,9 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(x => x.LastName).NotEmpty();
             RuleFor(x => x.LastName).MinimumLength(2).WithMessage(Messages.UserLastNameMinLength);
             RuleFor(x => x.LastName).MaximumLength(255).WithMessage(Messages.UserLastNameMaxLength);
-            RuleFor(x => x.Password).NotEmpty();
+            RuleFor(x => x.PasswordHash).NotEmpty();
+            RuleFor(x => x.PasswordSalt).NotEmpty();
+            RuleFor(x => x.Status).NotEmpty();
         }
     }
 }
