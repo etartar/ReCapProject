@@ -1,10 +1,6 @@
-﻿using Entities.Concrete;
+﻿using Business.Constants;
+using Entities.Concrete;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.ValidationRules.FluentValidation
 {
@@ -12,7 +8,9 @@ namespace Business.ValidationRules.FluentValidation
     {
         public BrandValidator()
         {
-
+            RuleFor(x => x.Name).NotEmpty();
+            RuleFor(x => x.Name).MinimumLength(2).WithMessage(Messages.BrandNameMinLength);
+            RuleFor(x => x.Name).MaximumLength(255).WithMessage(Messages.BrandNameMaxLength);
         }
     }
 }

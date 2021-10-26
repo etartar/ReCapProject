@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -30,12 +32,14 @@ namespace Business.Concrete
             else return new SuccessDataResult<Brand>(data);
         }
 
+        [ValidationAspect(typeof(BrandValidator))]
         public async Task<IResult> Create(Brand brand)
         {
             await _brandDal.AddAsync(brand);
             return new SuccessResult(Messages.BrandAdded);
         }
 
+        [ValidationAspect(typeof(BrandValidator))]
         public async Task<IResult> Update(Brand brand)
         {
             await _brandDal.UpdateAsync(brand);

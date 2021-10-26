@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -30,12 +32,14 @@ namespace Business.Concrete
             else return new SuccessDataResult<User>(data);
         }
 
+        [ValidationAspect(typeof(UserValidator))]
         public async Task<IResult> Create(User user)
         {
             await _userDal.AddAsync(user);
             return new SuccessResult(Messages.UserAdded);
         }
 
+        [ValidationAspect(typeof(UserValidator))]
         public async Task<IResult> Update(User user)
         {
             await _userDal.UpdateAsync(user);

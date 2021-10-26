@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -32,6 +34,7 @@ namespace Business.Concrete
             else return new SuccessDataResult<Rental>(data);
         }
 
+        [ValidationAspect(typeof(RentalValidator))]
         public async Task<IResult> Create(Rental rental)
         {
             IResult result = BusinessRules.Run(CheckIsCarRentalable(rental.CarId, rental.RentDate));
@@ -44,6 +47,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.RentalAdded);
         }
 
+        [ValidationAspect(typeof(RentalValidator))]
         public async Task<IResult> Update(Rental rental)
         {
             await _rentalDal.UpdateAsync(rental);
