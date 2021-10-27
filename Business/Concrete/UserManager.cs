@@ -32,6 +32,19 @@ namespace Business.Concrete
             else return new SuccessDataResult<User>(data);
         }
 
+        public async Task<IDataResult<User>> GetByEmail(string email)
+        {
+            var data = await _userDal.GetAsync(b => b.Email == email);
+            if (data is null) return new ErrorDataResult<User>(data, Messages.UserIsNull);
+            else return new SuccessDataResult<User>(data);
+        }
+
+        public async Task<IDataResult<List<OperationClaim>>> GetClaims(User user)
+        {
+            var data = await _userDal.GetClaimsAsync(user);
+            return new SuccessDataResult<List<OperationClaim>>(data);
+        }
+
         [ValidationAspect(typeof(UserValidator))]
         public async Task<IResult> Create(User user)
         {

@@ -13,42 +13,29 @@ namespace DataAccess.Concrete.EntityFramework
     {
         public List<CarDetailDto> GetCarDetails()
         {
-            using (CarRentalContext context = new CarRentalContext())
-            {
-                var result = from car in context.Cars.AsNoTracking()
-                             join brand in context.Brands.AsNoTracking() on car.BrandId equals brand.Id
-                             join color in context.Colors.AsNoTracking() on car.ColorId equals color.Id
-                             select new CarDetailDto
-                             {
-                                 Id = car.Id,
-                                 BrandName = brand.Name,
-                                 ColorName = color.Name,
-                                 DailyPrice = car.DailyPrice,
-                                 Description = car.Description
-                             };
-
-                return result.ToList();
-            }
+            using CarRentalContext context = new CarRentalContext();
+            return GetCarDetailsQuery(context).ToList();
         }
 
         public async Task<List<CarDetailDto>> GetCarDetailsAsync()
         {
-            using (CarRentalContext context = new CarRentalContext())
-            {
-                var result = from car in context.Cars.AsNoTracking()
-                             join brand in context.Brands.AsNoTracking() on car.BrandId equals brand.Id
-                             join color in context.Colors.AsNoTracking() on car.ColorId equals color.Id
-                             select new CarDetailDto
-                             {
-                                 Id = car.Id,
-                                 BrandName = brand.Name,
-                                 ColorName = color.Name,
-                                 DailyPrice = car.DailyPrice,
-                                 Description = car.Description
-                             };
+            using CarRentalContext context = new CarRentalContext();
+            return await GetCarDetailsQuery(context).ToListAsync();
+        }
 
-                return await result.ToListAsync();
-            }
+        private IQueryable<CarDetailDto> GetCarDetailsQuery(CarRentalContext context)
+        {
+            return from car in context.Cars.AsNoTracking()
+                   join brand in context.Brands.AsNoTracking() on car.BrandId equals brand.Id
+                   join color in context.Colors.AsNoTracking() on car.ColorId equals color.Id
+                   select new CarDetailDto
+                   {
+                       Id = car.Id,
+                       BrandName = brand.Name,
+                       ColorName = color.Name,
+                       DailyPrice = car.DailyPrice,
+                       Description = car.Description
+                   };
         }
     }
 }

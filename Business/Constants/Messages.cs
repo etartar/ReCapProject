@@ -51,5 +51,9 @@
         public static readonly string CarImageDeleted = "Araba resmi silindi.";
         public static readonly string CarImageIsNull = "İlgili araba resmine ait veri bulunamadı.";
         public static readonly string CarImageMustBeMaximumFiveImage = "İlgili araba ait maximum 5 resim eklenebilir.";
+
+        public static readonly string AuthorizationDenied = "Yetkiniz yok.";
+        public static readonly string AuthenticationFailed = "Kullanıcı adı ve/veya şifreniz yanlış.";
+        public static readonly string AuthenticationSuccessful = "Login işlemi başarılı.";
     }
 }

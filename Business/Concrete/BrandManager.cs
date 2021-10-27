@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -32,6 +33,7 @@ namespace Business.Concrete
             else return new SuccessDataResult<Brand>(data);
         }
 
+        [SecuredOperation("brand.create,admin")]
         [ValidationAspect(typeof(BrandValidator))]
         public async Task<IResult> Create(Brand brand)
         {
@@ -39,6 +41,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.BrandAdded);
         }
 
+        [SecuredOperation("brand.update,admin")]
         [ValidationAspect(typeof(BrandValidator))]
         public async Task<IResult> Update(Brand brand)
         {
@@ -46,6 +49,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.BrandUpdated);
         }
 
+        [SecuredOperation("brand.delete,admin")]
         public IResult Delete(Brand brand)
         {
             _brandDal.Delete(brand);

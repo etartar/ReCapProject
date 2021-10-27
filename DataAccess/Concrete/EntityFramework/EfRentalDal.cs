@@ -11,18 +11,14 @@ namespace DataAccess.Concrete.EntityFramework
     {
         public Rental GetLastRentalByCarId(int carId)
         {
-            using (CarRentalContext context = new CarRentalContext())
-            {
-                return context.Rentals.Where(x => x.CarId == carId).OrderByDescending(o => o.Id).SingleOrDefault();
-            }
+            using CarRentalContext context = new CarRentalContext();
+            return context.Rentals.Where(x => x.CarId == carId).OrderByDescending(o => o.Id).SingleOrDefault();
         }
 
         public async Task<Rental> GetLastRentalByCarIdAsync(int carId)
         {
-            using (CarRentalContext context = new CarRentalContext())
-            {
-                return await context.Rentals.Where(x => x.CarId == carId).OrderByDescending(o => o.Id).SingleOrDefaultAsync();
-            }
+            using CarRentalContext context = new CarRentalContext();
+            return await context.Rentals.Where(x => x.CarId == carId).OrderByDescending(o => o.Id).SingleOrDefaultAsync();
         }
     }
 }
