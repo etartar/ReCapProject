@@ -20,6 +20,7 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
+        [CacheAspect]
         public async Task<IDataResult<List<Brand>>> GetAll()
         {
             var data = await _brandDal.GetAllAsync();

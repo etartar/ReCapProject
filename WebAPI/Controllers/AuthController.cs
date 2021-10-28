@@ -42,7 +42,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
             var userExists = await _authService.UserExists(userForRegisterDto.Email);
-            if (!userExists.Success)
+            if (userExists.Success)
             {
                 return BadRequest(userExists.Message);
             }
