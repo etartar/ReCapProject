@@ -1,6 +1,9 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.FileManager;
 using Core.Utilities.Business;
@@ -26,6 +29,8 @@ namespace Business.Concrete
             _fileManager = fileManager;
         }
 
+        [CacheAspect]
+        [PerformanceAspect(5)]
         public async Task<IDataResult<List<CarImage>>> GetAll(int carId)
         {
             var data = await _carImageDal.GetAllAsync(c => c.CarId == carId);
@@ -39,6 +44,8 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarImage>>(data);
         }
 
+        [CacheAspect]
+        [PerformanceAspect(5)]
         public async Task<IDataResult<CarImage>> GetById(int carImageId)
         {
             var data = await _carImageDal.GetAsync(c => c.Id == carImageId);
@@ -46,7 +53,9 @@ namespace Business.Concrete
             else return new SuccessDataResult<CarImage>(data);
         }
 
+        [SecuredOperation("CarImage.Create,admin")]
         [ValidationAspect(typeof(CarImageCreateDtoValidator))]
+        [CacheRemoveAspect("ICarImageService.Get")]
         public async Task<IResult> Create(CarImageCreateDto carImageCreateDto)
         {
             IResult result = BusinessRules.Run(CheckCarImageCount(carImageCreateDto.CarId));
@@ -70,7 +79,9 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarImageAdded);
         }
 
+        [SecuredOperation("CarImage.Update,admin")]
         [ValidationAspect(typeof(CarImageUpdateDtoValidator))]
+        [CacheRemoveAspect("ICarImageService.Get")]
         public async Task<IResult> Update(CarImage carImage, CarImageUpdateDto carImageUpdateDto)
         {
             IDataResult<(DateTime date, string fileName)> updatedFileResult = await _fileManager.UpdateFileAsync(carImageUpdateDto.File, carImage.ImagePath);
@@ -84,6 +95,8 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarImageUpdated);
         }
 
+        [SecuredOperation("CarImage.Delete,admin")]
+        [CacheRemoveAspect("ICarImageService.Get")]
         public IResult Delete(CarImage carImage)
         {
             IResult deleteFileResult = _fileManager.DeleteFile(carImage.ImagePath);
