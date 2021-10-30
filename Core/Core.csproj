@@ -19,11 +19,8 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.13.1" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Aspects\Autofac\Caching\" />
     <Folder Include="Aspects\Autofac\Exception\" />
     <Folder Include="Aspects\Autofac\Logging\" />
-    <Folder Include="Aspects\Autofac\Transaction\" />
-    <Folder Include="Aspects\Autofac\Performance\" />
     <Folder Include="CrossCuttingConcerns\Caching\Redis\" />
   </ItemGroup>
 </Project>
