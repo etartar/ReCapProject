@@ -6,6 +6,7 @@ using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -25,6 +26,12 @@ namespace Business.Concrete
         {
             var data = await _rentalDal.GetAllAsync();
             return new SuccessDataResult<List<Rental>>(data);
+        }
+
+        public async Task<IDataResult<List<RentalDetailDto>>> GetRentalDetails()
+        {
+            var data = await _rentalDal.GetRentalDetailsAsync();
+            return new SuccessDataResult<List<RentalDetailDto>>(data);
         }
 
         public async Task<IDataResult<Rental>> GetById(int rentalId)

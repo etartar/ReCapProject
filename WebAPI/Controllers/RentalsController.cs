@@ -27,6 +27,17 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetRentalDetails()
+        {
+            var result = await _rentalService.GetRentalDetails();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
