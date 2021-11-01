@@ -47,6 +47,10 @@ namespace WebAPI
             ConnectionService.SetNpgsql(Configuration, "PostgreSqlDb");
             #endregion
 
+            #region [CORS Initialize]
+            services.AddCors();
+            #endregion
+
             #region [Authentication Initialize]
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
@@ -83,6 +87,13 @@ namespace WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Rent A Car Web Api v1"));
             }
+
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:4200")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+            });
 
             app.UseHttpsRedirection();
 
