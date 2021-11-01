@@ -1,5 +1,7 @@
 ﻿using Core.DataAccess;
 using Entities.Concrete;
+using Entities.DTOs;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
@@ -8,5 +10,7 @@ namespace DataAccess.Abstract
     {
         Rental GetLastRentalByCarId(int carId);
         Task<Rental> GetLastRentalByCarIdAsync(int carId);
+        List<RentalDetailDto> GetRentalDetails();
+        Task<List<RentalDetailDto>> GetRentalDetailsAsync();
     }
 }
