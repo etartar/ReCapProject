@@ -3,8 +3,10 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
@@ -21,6 +23,18 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using CarRentalContext context = new CarRentalContext();
             return await GetCarDetailsQuery(context).ToListAsync();
+        }
+
+        public CarDetailDto GetCarDetailById(Expression<Func<CarDetailDto, bool>> filter)
+        {
+            using CarRentalContext context = new CarRentalContext();
+            return GetCarDetailsQuery(context).SingleOrDefault(filter);
+        }
+
+        public async Task<CarDetailDto> GetCarDetailByIdAsync(Expression<Func<CarDetailDto, bool>> filter)
+        {
+            using CarRentalContext context = new CarRentalContext();
+            return await GetCarDetailsQuery(context).SingleOrDefaultAsync(filter);
         }
 
         private IQueryable<CarDetailDto> GetCarDetailsQuery(CarRentalContext context)

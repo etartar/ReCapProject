@@ -71,6 +71,17 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCarDetailById(int id)
+        {
+            var result = await _carService.GetCarDetailById(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(Car car)
         {

@@ -12,7 +12,7 @@ namespace DataAccess.Concrete.InMemory
 {
     public class InMemoryCarDal : ICarDal
     {
-        private List<Car> _cars;
+        private readonly List<Car> _cars;
 
         public InMemoryCarDal()
         {
@@ -82,6 +82,16 @@ namespace DataAccess.Concrete.InMemory
         }
 
         public Task<List<CarDetailDto>> GetCarDetailsAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public CarDetailDto GetCarDetailById(Expression<Func<CarDetailDto, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CarDetailDto> GetCarDetailByIdAsync(Expression<Func<CarDetailDto, bool>> filter)
         {
             throw new NotImplementedException();
         }

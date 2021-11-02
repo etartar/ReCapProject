@@ -64,6 +64,15 @@ namespace Business.Concrete
             else return new SuccessDataResult<Car>(data);
         }
 
+        [CacheAspect]
+        [PerformanceAspect(5)]
+        public async Task<IDataResult<CarDetailDto>> GetCarDetailById(int carId)
+        {
+            var data = await _carDal.GetCarDetailByIdAsync(c => c.Id == carId);
+            if (data is null) return new ErrorDataResult<CarDetailDto>(data, Messages.CarIsNull);
+            else return new SuccessDataResult<CarDetailDto>(data);
+        }
+
         [SecuredOperation("Car.Create,admin")]
         [ValidationAspect(typeof(CarValidator))]
         [CacheRemoveAspect("ICarService.Get")]
