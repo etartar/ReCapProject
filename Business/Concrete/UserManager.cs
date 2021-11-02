@@ -56,7 +56,6 @@ namespace Business.Concrete
             return new SuccessDataResult<List<OperationClaim>>(data);
         }
 
-        [SecuredOperation("User.Create,admin")]
         [ValidationAspect(typeof(UserValidator))]
         [CacheRemoveAspect("IUserService.Get")]
         public async Task<IResult> Create(User user)
@@ -65,7 +64,6 @@ namespace Business.Concrete
             return new SuccessResult(Messages.UserAdded);
         }
 
-        [SecuredOperation("User.Update,admin")]
         [ValidationAspect(typeof(UserValidator))]
         [CacheRemoveAspect("IUserService.Get")]
         public async Task<IResult> Update(User user)
@@ -74,7 +72,6 @@ namespace Business.Concrete
             return new SuccessResult(Messages.UserUpdated);
         }
 
-        [SecuredOperation("User.Delete,admin")]
         [CacheRemoveAspect("IUserService.Get")]
         public IResult Delete(User user)
         {
