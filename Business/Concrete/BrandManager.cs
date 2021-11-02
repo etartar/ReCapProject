@@ -41,7 +41,7 @@ namespace Business.Concrete
 
         [SecuredOperation("Brand.Create,admin")]
         [ValidationAspect(typeof(BrandValidator))]
-        [CacheRemoveAspect("IProductService.Get")]
+        [CacheRemoveAspect("IBrandService.Get")]
         public async Task<IResult> Create(Brand brand)
         {
             await _brandDal.AddAsync(brand);
@@ -50,7 +50,7 @@ namespace Business.Concrete
 
         [SecuredOperation("Brand.Update,admin")]
         [ValidationAspect(typeof(BrandValidator))]
-        [CacheRemoveAspect("IProductService.Get")]
+        [CacheRemoveAspect("IBrandService.Get")]
         public async Task<IResult> Update(Brand brand)
         {
             await _brandDal.UpdateAsync(brand);
@@ -58,7 +58,7 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("Brand.Delete,admin")]
-        [CacheRemoveAspect("IProductService.Get")]
+        [CacheRemoveAspect("IBrandService.Get")]
         public IResult Delete(Brand brand)
         {
             _brandDal.Delete(brand);
