@@ -13,6 +13,7 @@ namespace Business.Abstract
         Task<IDataResult<List<Car>>> GetCarsByColorId(int colorId);
         Task<IDataResult<List<CarDetailDto>>> GetCarDetails();
         Task<IDataResult<Car>> GetById(int carId);
+        Task<IDataResult<CarDetailDto>> GetCarDetailById(int carId);
         Task<IResult> Create(Car car);
         Task<IResult> Update(Car car);
         IResult Delete(Car car);
