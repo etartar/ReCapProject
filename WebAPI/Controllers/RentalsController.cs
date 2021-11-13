@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
@@ -94,6 +96,17 @@ namespace WebAPI.Controllers
                 return BadRequest(result);
             }
             return BadRequest(getRental);
+        }
+
+        [HttpPost]
+        public IActionResult CheckIsCarRentalable(CheckIsCarRentalableDto checkIsCarRentalableDto)
+        {
+            var result = _rentalService.CheckIsCarRentalable(checkIsCarRentalableDto.CarId, checkIsCarRentalableDto.RentDate);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
     }
 }

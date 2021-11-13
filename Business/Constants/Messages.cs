@@ -55,5 +55,8 @@
         public static readonly string AuthorizationDenied = "Yetkiniz yok.";
         public static readonly string AuthenticationFailed = "Kullanıcı adı ve/veya şifreniz yanlış.";
         public static readonly string AuthenticationSuccessful = "Login işlemi başarılı.";
+
+        public static readonly string PaymentFailed = "Ödeme işlemi başarısız. Kredi kartı bilgileri hatalı.";
+        public static readonly string PaymentSuccess = "Ödeme işlemi başarılı.";
     }
 }
