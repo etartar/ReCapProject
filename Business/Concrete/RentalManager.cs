@@ -67,7 +67,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.RentalDeleted);
         }
 
-        private IResult CheckIsCarRentalable(int carId, DateTime rentDate)
+        public IResult CheckIsCarRentalable(int carId, DateTime rentDate)
         {
             Rental getLastRental = _rentalDal.GetLastRentalByCarId(carId);
             if (getLastRental != null)
