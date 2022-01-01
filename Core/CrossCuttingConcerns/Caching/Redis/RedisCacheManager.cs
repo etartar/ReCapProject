@@ -42,10 +42,12 @@ namespace Core.CrossCuttingConcerns.Caching.Redis
         {
             var serializedData = JsonConvert.SerializeObject(value);
             var byteValue = Encoding.UTF8.GetBytes(serializedData);
-            _distributedCache.Set(key, byteValue, new DistributedCacheEntryOptions
+            var options = new DistributedCacheEntryOptions
             {
                 AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(duration)
-            });
+            };
+
+            _distributedCache.Set(key, byteValue, options);
         }
 
         public bool IsAdd(string key)
